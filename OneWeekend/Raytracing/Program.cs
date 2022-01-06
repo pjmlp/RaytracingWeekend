@@ -1,32 +1,47 @@
-﻿namespace Raytracing
+﻿using RaytracingUtils;
+using System.Numerics;
+
+
+static Vector3 RayColor(Ray r)
 {
-    /// <summary>
-    /// Implementation of the PPM generation as described on the 2nd chapter.
-    /// </summary>
-    class Program
+    Vector3 unitDirection = Vector3.Normalize(r.Direction);
+    float t = 0.5f * (unitDirection.Y + 1.0f);
+    return (1.0f - t) * Vector3.One + t * new Vector3(0.5f, 0.7f, 1.0f);
+}
+
+
+const int bytesPerPixel = 3;
+const int imageWidth = 200;
+const int imageHeight = 100;
+var imageBuffer = new byte[imageWidth * imageHeight * bytesPerPixel];
+
+var lowerLeftCorner = new Vector3(-2.0f, -1.0f, -1.0f);
+var horizontal = new Vector3(4.0f, 0.0f, 0.0f);
+var vertical = new Vector3(0.0f, 0.2f, 0.0f);
+var origin = new Vector3(0.0f, 0.0f, 0.0f);
+
+for (int j = imageHeight - 1, y = 0; j >= 0; j--, y++)
+{
+    for (int i = 0; i < imageWidth; i++)
     {
-        static void Main(string[] args)
-        {
-            const int imageWidth = 256;
-            const int imageHeight = 256;
+        float u = (float)i / (float)imageWidth;
+        float v = (float)j / (float)imageHeight;
 
-            Console.WriteLine($"P3\n{imageWidth} {imageHeight}\n255");
+        var ray = new Ray(origin, lowerLeftCorner + u * horizontal + v * vertical);
+        Vector3 col = RayColor(ray);
 
-            for (int j = imageHeight - 1; j >= 0; --j)
-            {
-                for (int i = 0; i < imageWidth; ++i)
-                {
-                    var r = ((double)(i)) / (imageWidth - 1);
-                    var g = ((double)(j)) / (imageHeight - 1);
-                    var b = 0.25;
+        byte ir = (byte)(255.999 * col.X);
+        byte ig = (byte)(255.999 * col.Y);
+        byte ib = (byte)(255.999 * col.Z);
 
-                    int ir = (int)(255.999 * r);
-                    int ig = (int)(255.999 * g);
-                    int ib = (int)(255.999 * b);
+        int current = (y * imageWidth * bytesPerPixel) + (i * bytesPerPixel);
+        imageBuffer[current] = ir;
+        imageBuffer[current + 1] = ig;
+        imageBuffer[current + 2] = ib;
 
-                    Console.WriteLine($"{ir} {ig} {ib}");
-                }
-            }
-        }
+        //Console.WriteLine($"{ir} {ig} {ib} => {i} {y} {current} => {(y * imageWidth * bytesPerPixel)} {i * bytesPerPixel}");
     }
 }
+
+
+ImageWriter.SaveAsBmp("demo.bmp", imageBuffer, imageWidth, imageHeight);
