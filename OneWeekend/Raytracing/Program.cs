@@ -15,7 +15,7 @@ static float HitSphere(in Vector3 center, float radius, Ray r)
     }
     else
     {
-        return (float)(- b - Math.Sqrt(discriminat)) / (2.0f * a);
+        return (float)(-b - Math.Sqrt(discriminat)) / (2.0f * a);
     }
 }
 
@@ -25,9 +25,9 @@ static Vector3 RayColor(Ray r)
     if (t > 0.0f)
     {
         Vector3 N = Vector3.Normalize(r.At(t) - new Vector3(0.0f, 0.0f, -1.0f));
-        return 0.5f * new Vector3(N.X + 1, N.Y + 1, N.Z +1);
+        return 0.5f * new Vector3(N.X + 1, N.Y + 1, N.Z + 1);
     }
-                
+
 
     Vector3 unitDirection = Vector3.Normalize(r.Direction);
     t = 0.5f * (unitDirection.Y + 1.0f);
