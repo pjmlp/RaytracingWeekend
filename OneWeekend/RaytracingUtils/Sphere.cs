@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RaytracingUtils
 {
-    public class Sphere : IHitable
+    public class Sphere : IHittable
     {
         Vector3 center;
         readonly double radius;
@@ -22,25 +18,27 @@ namespace RaytracingUtils
         {
             var oc = r.Origin - center;
             var a = r.Direction.LengthSquared();
-            var half_b = Vector3.Dot(oc, r.Direction);
+            var halfB = Vector3.Dot(oc, r.Direction);
             var c = oc.LengthSquared() - radius * radius;
 
-            var discriminant = half_b * half_b - a * c;
+            var discriminant = halfB * halfB - a * c;
             if (discriminant < 0) return false;
             var sqrtd = Math.Sqrt(discriminant);
 
             // Find the nearest root that lies in the acceptable range.
-            var root = (-half_b - sqrtd) / a;
+            var root = (-halfB - sqrtd) / a;
             if (root < tMin || tMax < root)
             {
-                root = (-half_b + sqrtd) / a;
+                root = (-halfB + sqrtd) / a;
                 if (root < tMin || tMax < root)
                     return false;
             }
 
             rec.t = (float)root;
             rec.p = r.At(rec.t);
-            rec.Normal = (rec.p - center) / (float)radius;
+
+            Vector3 outwardNormal = (rec.p - center) / (float)radius;
+            rec.SetFaceNormal(r, outwardNormal);
 
             return true;
         }
