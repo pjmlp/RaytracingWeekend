@@ -5,17 +5,18 @@ using System.Numerics;
 static float HitSphere(in Vector3 center, float radius, Ray r)
 {
     Vector3 oc = r.Origin - center;
-    float a = Vector3.Dot(r.Direction, r.Direction);
-    float b = 2.0f * Vector3.Dot(oc, r.Direction);
-    float c = Vector3.Dot(oc, oc) - radius * radius;
-    float discriminat = b * b - 4 * a * c;
+    float a = r.Direction.LengthSquared();
+    float halfB = Vector3.Dot(oc, r.Direction);
+    float c = oc.LengthSquared() - radius * radius;
+    float discriminat = halfB * halfB -  a * c;
+
     if (discriminat < 0)
     {
         return -1.0f;
     }
     else
     {
-        return (float)(-b - Math.Sqrt(discriminat)) / (2.0f * a);
+        return (float)(-halfB - Math.Sqrt(discriminat)) / a;
     }
 }
 
@@ -47,6 +48,8 @@ var origin = new Vector3(0.0f, 0.0f, 0.0f);
 
 for (int j = imageHeight - 1, y = 0; j >= 0; j--, y++)
 {
+    Console.Error.Write($"\rScanlines remaining: {j}");
+
     for (int i = 0; i < imageWidth; i++)
     {
         float u = (float)i / (float)imageWidth;
