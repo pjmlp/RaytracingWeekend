@@ -1,23 +1,36 @@
 ﻿using RaytracingUtils;
 using System.Numerics;
 
-static bool HitSphere(in Vector3 center, float radius, Ray r)
+
+static float HitSphere(in Vector3 center, float radius, Ray r)
 {
     Vector3 oc = r.Origin - center;
     float a = Vector3.Dot(r.Direction, r.Direction);
     float b = 2.0f * Vector3.Dot(oc, r.Direction);
     float c = Vector3.Dot(oc, oc) - radius * radius;
     float discriminat = b * b - 4 * a * c;
-    return (discriminat > 0);
+    if (discriminat < 0)
+    {
+        return -1.0f;
+    }
+    else
+    {
+        return (float)(- b - Math.Sqrt(discriminat)) / (2.0f * a);
+    }
 }
 
 static Vector3 RayColor(Ray r)
 {
-    if (HitSphere(new Vector3(0.0f, 0.0f, -1.0f), 0.5f, r))
-        return Vector3.UnitX;
+    float t = HitSphere(new Vector3(0.0f, 0.0f, -1.0f), 0.5f, r);
+    if (t > 0.0f)
+    {
+        Vector3 N = Vector3.Normalize(r.At(t) - new Vector3(0.0f, 0.0f, -1.0f));
+        return 0.5f * new Vector3(N.X + 1, N.Y + 1, N.Z +1);
+    }
+                
 
     Vector3 unitDirection = Vector3.Normalize(r.Direction);
-    float t = 0.5f * (unitDirection.Y + 1.0f);
+    t = 0.5f * (unitDirection.Y + 1.0f);
     return (1.0f - t) * Vector3.One + t * new Vector3(0.5f, 0.7f, 1.0f);
 }
 
@@ -50,9 +63,10 @@ for (int j = imageHeight - 1, y = 0; j >= 0; j--, y++)
         imageBuffer[current] = ir;
         imageBuffer[current + 1] = ig;
         imageBuffer[current + 2] = ib;
+
+        //Console.WriteLine($"{ir} {ig} {ib} => {i} {y} {current} => {(y * imageWidth * bytesPerPixel)} {i * bytesPerPixel}");
     }
 }
-
 
 
 ImageWriter.SaveAsBmp("demo.bmp", imageBuffer, imageWidth, imageHeight);
