@@ -57,5 +57,6 @@ for (int j = imageHeight - 1, y = 0; j >= 0; j--, y++)
     }
 }
 
+Console.Error.WriteLine();
 
 ImageWriter.SaveAsBmp("demo.bmp", imageBuffer, imageWidth, imageHeight);
