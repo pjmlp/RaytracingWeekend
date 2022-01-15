@@ -5,6 +5,10 @@ using System.Runtime.InteropServices;
 
 namespace RaytracingUtils;
 
+// no need for the warning, we use the open source version of System.Drawing
+// on other platforms
+#pragma warning disable CA1416
+
 /// <summary>
 /// Utility class to save the renderings as proper images.
 /// </summary>
