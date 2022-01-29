@@ -14,7 +14,7 @@ static Vector3 RayColor(Ray r, IHittable world, int depth)
     HitRecord rec = default;
     if (world.Hit(r, 001f, Single.PositiveInfinity, ref rec))
     {
-        Vector3 target = rec.p + rec.Normal + RandomUnitVector();
+        Vector3 target = rec.p + RandomInHemisphere(rec.Normal);
         return 0.5f * RayColor(new Ray(rec.p, target - rec.p), world, depth - 1);
     }
 

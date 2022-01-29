@@ -34,6 +34,17 @@ namespace RaytracingUtils
 
         public static Vector3 RandomUnitVector() => Vector3.Normalize(RandomVector());
 
-
+        public static Vector3 RandomInHemisphere(in Vector3 normal)
+        {
+            var in_unit_sphere = RandomInUnitSphere();
+            if (Vector3.Dot(in_unit_sphere, normal) > 0.0) // In the same hemisphere as the normal
+            {
+                return in_unit_sphere;
+            }
+            else
+            {
+                return -in_unit_sphere;
+            }
+        }
     }
 }
