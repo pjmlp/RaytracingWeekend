@@ -30,7 +30,9 @@ namespace RaytracingUtils
                 if (p.LengthSquared() >= 1) continue;
                 return p;
             }
-        } 
+        }
+
+        public static Vector3 RandomUnitVector() => Vector3.Normalize(RandomVector());
 
 
     }
