@@ -28,12 +28,11 @@ public class RenderBuffer
         float g = col.Y;
         float b = col.Z;
 
-
-        // Divide the color by the number of samples.
+        // Divide the color by the number of samples and gamma-correct for gamma=2.0.
         var scale = 1.0f / samplesPerPixel;
-        r *= scale;
-        g *= scale;
-        b *= scale;
+        r = (float)Math.Sqrt(scale * r);
+        g = (float)Math.Sqrt(scale * g);
+        b = (float)Math.Sqrt(scale * b);
 
         int current = (y * ImageWidth * BytesPerPixel) + (x * BytesPerPixel);
         imageBuffer[current] = (byte)(256 * Math.Clamp(r, 0.0f, 0.999f));
