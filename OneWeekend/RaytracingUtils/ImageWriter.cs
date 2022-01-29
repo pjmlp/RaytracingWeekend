@@ -53,7 +53,7 @@ public static class ImageWriter
     /// <param name="buffer">The image data stored as RGB buffer.</param>
     /// <param name="width">The image width in pixels.</param>
     /// <param name="height">The image height in pixels.</param>
-    public static void SaveAsBmp(string filename, byte[] buffer, int width, int height)
+    public static void SaveAsBmp(string filename, ReadOnlySpan<byte> buffer, int width, int height)
     {
         // Not the best alternative, but it works out for the purpose 
         var bitmap = new Bitmap(width, height, PixelFormat.Format24bppRgb);
