@@ -3,12 +3,19 @@ using System.Numerics;
 using static RaytracingUtils.MathUtils;
 
 
-static Vector3 RayColor(Ray r, IHittable world)
+static Vector3 RayColor(Ray r, IHittable world, int depth)
 {
+        // If we've exceeded the ray bounce limit, no more light is gathered.
+    if (depth <= 0)
+    {
+        return Vector3.Zero;
+    }
+
     HitRecord rec = default;
     if (world.Hit(r, 0, Single.PositiveInfinity, ref rec))
     {
-        return 0.5f * (rec.Normal + new Vector3(1, 1, 1));
+        Vector3 target = rec.p + rec.Normal + RandomInUnitSphere();
+        return 0.5f * RayColor(new Ray(rec.p, target - rec.p), world, depth - 1);
     }
 
     Vector3 unitDirection = Vector3.Normalize(r.Direction);
@@ -17,6 +24,7 @@ static Vector3 RayColor(Ray r, IHittable world)
 }
 
 // Image
+const int maxDepth = 50;
 const int samplesPerPixel = 100;
 const int bytesPerPixel = 3;
 const int imageWidth = 200;
@@ -43,7 +51,7 @@ for (int j = imageHeight - 1, y = 0; j >= 0; j--, y++)
             var u = (i + RandomDouble()) / (imageWidth-1);
             var v = (j + RandomDouble()) / (imageHeight-1);
             Ray r = cam.GetRay(u, v);
-            pixelColor += RayColor(r, world);
+            pixelColor += RayColor(r, world, maxDepth);
         }
 
         imageBuffer.WriteColor(i, y, pixelColor, samplesPerPixel);
