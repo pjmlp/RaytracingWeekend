@@ -46,5 +46,9 @@ namespace RaytracingUtils
                 return -in_unit_sphere;
             }
         }
+
+        public static Vector3 Reflect(in Vector3 v, in Vector3 n) {
+            return v - 2*Vector3.Dot(v,n)*n;
+        }
     }
 }

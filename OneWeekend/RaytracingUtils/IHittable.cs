@@ -13,9 +13,12 @@ public struct HitRecord
 
     public bool FrontFace;
 
+    public IMaterial Material;
+
     public void SetFaceNormal(Ray r, in Vector3 outwardNormal) {
         FrontFace = Vector3.Dot(r.Direction, outwardNormal) < 0;
         Normal = FrontFace ? outwardNormal : -outwardNormal;
+        Material = null;
     }
 }
 
@@ -60,4 +63,8 @@ public class HittableList : IHittable
 
         return hitAnything;
     }
+}
+
+public interface IMaterial {
+    bool Scatter(Ray rIn, in HitRecord rec, ref Vector3 attenuation, out Ray scattered);
 }

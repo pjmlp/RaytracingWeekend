@@ -8,10 +8,13 @@ namespace RaytracingUtils
         Vector3 center;
         readonly double radius;
 
-        public Sphere(Vector3 cen, double r)
+        IMaterial material;
+
+        public Sphere(Vector3 cen, double r, IMaterial m)
         {
             center = cen;
             radius = r;
+            material = m;
         }
 
         public bool Hit(Ray r, float tMin, float tMax, ref HitRecord rec)
@@ -35,10 +38,11 @@ namespace RaytracingUtils
             }
 
             rec.t = (float)root;
-            rec.p = r.At(rec.t);
+            rec.p = r.At(rec.t);            
 
             Vector3 outwardNormal = (rec.p - center) / (float)radius;
             rec.SetFaceNormal(r, outwardNormal);
+            rec.Material = material;
 
             return true;
         }
