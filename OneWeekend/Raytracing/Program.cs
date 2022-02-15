@@ -50,24 +50,28 @@ world.Add(new Sphere(new Vector3( 1.0f,    0.0f, -1.0f), 0.5f, materialRight));
 // Camera
 var cam = new Camera();
 
-for (int j = imageHeight - 1, y = 0; j >= 0; j--, y++)
+//for (int j = imageHeight - 1, y = 0; j >= 0; j--, y++)
+Parallel.For(0, imageHeight - 1, index =>
 {
-    Console.Error.Write($"\rScanlines remaining: {j}");
+    int y = index;
+    int j = imageHeight - index - 1;
+    Console.Error.Write($"\rScanlines remaining: {j} ");
 
     for (int i = 0; i < imageWidth; i++)
     {
         var pixelColor = Vector3.Zero;
 
-        for (int s = 0; s < samplesPerPixel; ++s) {
-            var u = (i + RandomDouble()) / (imageWidth-1);
-            var v = (j + RandomDouble()) / (imageHeight-1);
+        for (int s = 0; s < samplesPerPixel; ++s)
+        {
+            var u = (i + RandomDouble()) / (imageWidth - 1);
+            var v = (j + RandomDouble()) / (imageHeight - 1);
             Ray r = cam.GetRay(u, v);
             pixelColor += RayColor(r, world, maxDepth);
         }
 
         imageBuffer.WriteColor(i, y, pixelColor, samplesPerPixel);
     }
-}
+});
 
 Console.Error.WriteLine();
 
