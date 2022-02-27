@@ -33,17 +33,19 @@ public class Lambertian : IMaterial
 public class Metal : IMaterial
 {
     Vector3 albedo;
+    float fuzz;
 
-    public Metal(in Vector3 a)
+    public Metal(in Vector3 a, double f)
     {
         albedo = a;
+        fuzz = (float)(f < 1.0f ? f : 1.0f);
     }
 
     public bool Scatter(Ray rIn, in HitRecord rec, ref Vector3 attenuation, out Ray scattered)
     {
         var reflected = Reflect(Vector3.Normalize(rIn.Direction), rec.Normal);
 
-        scattered = new Ray(rec.p, reflected);
+        scattered = new Ray(rec.p, reflected + fuzz * RandomInUnitSphere());
         attenuation = albedo;
         return Vector3.Dot(scattered.Direction, rec.Normal) > 0.0f;
     }

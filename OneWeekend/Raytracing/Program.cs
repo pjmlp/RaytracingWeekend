@@ -27,11 +27,13 @@ static Vector3 RayColor(Ray r, IHittable world, int depth)
 }
 
 // Image
-const int maxDepth = 50;
+const float aspectRatio = 16.0f / 9.0f;
+const int imageWidth = 400;
+const int imageHeight = (int)(imageWidth / aspectRatio);
 const int samplesPerPixel = 100;
+const int maxDepth = 50;
+
 const int bytesPerPixel = 3;
-const int imageWidth = 200;
-const int imageHeight = 100;
 var imageBuffer = new RenderBuffer(imageWidth, imageHeight, bytesPerPixel);
 
 // World
@@ -39,8 +41,8 @@ var world = new HittableList();
 
 var materialGround = new Lambertian(new Vector3(0.8f, 0.8f, 0.0f));
 var materialCenter = new Lambertian(new Vector3(0.7f, 0.3f, 0.3f));
-var materialLeft = new Metal(new Vector3(0.8f, 0.8f, 0.0f));
-var materialRight = new Metal(new Vector3(0.8f, 0.6f, 0.2f));
+var materialLeft = new Metal(new Vector3(0.8f, 0.8f, 0.8f), 0.3f);
+var materialRight = new Metal(new Vector3(0.8f, 0.6f, 0.2f), 1.0f);
 
 world.Add(new Sphere(new Vector3( 0.0f, -100.5f, -1.0f), 100, materialGround));
 world.Add(new Sphere(new Vector3( 0.0f,    0.0f, -1.0f), 0.5f, materialCenter));
@@ -50,11 +52,11 @@ world.Add(new Sphere(new Vector3( 1.0f,    0.0f, -1.0f), 0.5f, materialRight));
 // Camera
 var cam = new Camera();
 
-//for (int j = imageHeight - 1, y = 0; j >= 0; j--, y++)
-Parallel.For(0, imageHeight - 1, index =>
+for (int j = imageHeight - 1, y = 0; j >= 0; j--, y++)
+//Parallel.For(0, imageHeight - 1, index =>
 {
-    int y = index;
-    int j = imageHeight - index - 1;
+    //int y = index;
+    //int j = imageHeight - index - 1;
     Console.Error.Write($"\rScanlines remaining: {j} ");
 
     for (int i = 0; i < imageWidth; i++)
@@ -71,7 +73,7 @@ Parallel.For(0, imageHeight - 1, index =>
 
         imageBuffer.WriteColor(i, y, pixelColor, samplesPerPixel);
     }
-});
+} //);
 
 Console.Error.WriteLine();
 
