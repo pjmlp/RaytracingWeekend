@@ -18,7 +18,6 @@ public struct HitRecord
     public void SetFaceNormal(Ray r, in Vector3 outwardNormal) {
         FrontFace = Vector3.Dot(r.Direction, outwardNormal) < 0;
         Normal = FrontFace ? outwardNormal : -outwardNormal;
-        Material = null;
     }
 }
 

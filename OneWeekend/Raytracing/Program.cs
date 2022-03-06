@@ -5,7 +5,7 @@ using static RaytracingUtils.MathUtils;
 
 static Vector3 RayColor(Ray r, IHittable world, int depth)
 {
-        // If we've exceeded the ray bounce limit, no more light is gathered.
+    // If we've exceeded the ray bounce limit, no more light is gathered.
     if (depth <= 0)
     {
         return Vector3.Zero;
@@ -16,7 +16,7 @@ static Vector3 RayColor(Ray r, IHittable world, int depth)
     {
         Ray scattered = new();
         Vector3 attenuation = default;
-        if (rec.Material != null && rec.Material.Scatter(r, rec, ref attenuation, out scattered))
+        if (rec.Material.Scatter(r, rec, ref attenuation, out scattered))
             return attenuation * RayColor(scattered, world, depth-1);
         return Vector3.Zero;
     }

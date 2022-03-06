@@ -19,7 +19,7 @@ public class Camera
         var viewportWidth = aspectRatio * viewportHeight;
         var focalLength = 1.0f;
 
-        origin = new Vector3(0, 0, 0);
+        origin = Vector3.Zero;
         horizontal = new Vector3(viewportWidth, 0.0f, 0.0f);
         vertical = new Vector3(0.0f, viewportHeight, 0.0f);
         lower_left_corner = origin - horizontal / 2 - vertical / 2 - new Vector3(0.0f, 0.0f, focalLength);
