@@ -12,7 +12,7 @@ static Vector3 RayColor(Ray r, IHittable world, int depth)
     }
 
     HitRecord rec = default;
-    if (world.Hit(r, 001f, Single.PositiveInfinity, ref rec))
+    if (world.Hit(r, 0.001f, Single.PositiveInfinity, ref rec))
     {
         Ray scattered = new();
         Vector3 attenuation = default;
