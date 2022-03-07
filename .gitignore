@@ -35,8 +35,3 @@
 .vs
 obj
 bin
-
-# Image files
-*.png
-*.ppm
-*.bmp
