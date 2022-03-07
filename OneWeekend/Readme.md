@@ -4,7 +4,7 @@ This solution contains the C# version of the [first weekend](https://raytracing.
 
 The current state being generated is,
 
-![Current state](Renderings/Latest.png)
+![Current state](Renderings/Latest.bmp)
 
 # Building
 
