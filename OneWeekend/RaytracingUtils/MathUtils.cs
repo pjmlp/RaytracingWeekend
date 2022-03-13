@@ -50,5 +50,14 @@ namespace RaytracingUtils
         public static Vector3 Reflect(in Vector3 v, in Vector3 n) {
             return v - 2*Vector3.Dot(v,n)*n;
         }
+
+        public static Vector3 Refract(in Vector3 uv, in Vector3 n, float etaiOverEtat) {
+            var cosTheta = MathF.Min(Vector3.Dot(-uv, n), 1.0f);
+            var rOutPerp =  etaiOverEtat * (uv + cosTheta*n);
+            var rOutParallel = -MathF.Sqrt(MathF.Abs(1.0f - rOutPerp.LengthSquared())) * n;
+            return rOutPerp + rOutParallel;
+        } 
+
+      
     }
 }

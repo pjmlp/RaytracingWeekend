@@ -50,3 +50,25 @@ public class Metal : IMaterial
         return Vector3.Dot(scattered.Direction, rec.Normal) > 0.0f;
     }
 }
+
+public class Dielectric : IMaterial
+{
+    float ir; // Index of Refraction
+
+    public Dielectric(double indexOfRefraction)
+    {
+        ir = (float)indexOfRefraction;
+    }
+
+    public bool Scatter(Ray rIn, in HitRecord rec, ref Vector3 attenuation, out Ray scattered)
+    {
+        attenuation = new Vector3(1.0f, 1.0f, 1.0f);
+        float refractionRatio = rec.FrontFace ? (1.0f / ir) : ir;
+
+        Vector3 unit_direction = Vector3.Normalize(rIn.Direction);
+        Vector3 refracted = Refract(unit_direction, rec.Normal, refractionRatio);
+
+        scattered = new Ray(rec.p, refracted);
+        return true;
+    }
+}

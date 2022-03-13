@@ -38,10 +38,17 @@ var imageBuffer = new RenderBuffer(imageWidth, imageHeight, bytesPerPixel);
 
 // World
 var world = new HittableList();
-
+/*
 var materialGround = new Lambertian(new Vector3(0.8f, 0.8f, 0.0f));
 var materialCenter = new Lambertian(new Vector3(0.7f, 0.3f, 0.3f));
 var materialLeft = new Metal(new Vector3(0.8f, 0.8f, 0.8f), 0.3f);
+var materialRight = new Metal(new Vector3(0.8f, 0.6f, 0.2f), 1.0f);
+*/
+
+
+var materialGround = new Lambertian(new Vector3(0.8f, 0.8f, 0.0f));
+var materialCenter = new Dielectric(1.5f);
+var materialLeft = new Dielectric(1.5f);
 var materialRight = new Metal(new Vector3(0.8f, 0.6f, 0.2f), 1.0f);
 
 world.Add(new Sphere(new Vector3( 0.0f, -100.5f, -1.0f), 100, materialGround));
