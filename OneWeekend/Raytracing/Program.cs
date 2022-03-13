@@ -54,6 +54,7 @@ var materialRight = new Metal(new Vector3(0.8f, 0.6f, 0.2f), 0.0f);
 world.Add(new Sphere(new Vector3( 0.0f, -100.5f, -1.0f), 100, materialGround));
 world.Add(new Sphere(new Vector3( 0.0f,    0.0f, -1.0f), 0.5f, materialCenter));
 world.Add(new Sphere(new Vector3(-1.0f,    0.0f, -1.0f), 0.5f, materialLeft));
+world.Add(new Sphere(new Vector3(-1.0f,    0.0f, -1.0f), -0.4f, materialLeft));
 world.Add(new Sphere(new Vector3( 1.0f,    0.0f, -1.0f), 0.5f, materialRight));
 
 // Camera
