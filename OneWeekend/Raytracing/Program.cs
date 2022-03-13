@@ -39,17 +39,25 @@ var imageBuffer = new RenderBuffer(imageWidth, imageHeight, bytesPerPixel);
 // World
 var world = new HittableList();
 
-var R = MathF.Cos(MathF.PI / 4.0f);
+var materialGround = new Lambertian(new Vector3(0.8f, 0.8f, 0.0f));
+var materialCenter = new Lambertian(new Vector3(0.1f, 0.2f, 0.5f));
+var materialLeft = new Dielectric(1.5f);
+var materialRight = new Metal(new Vector3(0.8f, 0.6f, 0.2f), 0.0f);
 
-var materialLeft = new Lambertian(new Vector3(0.0f, 0.0f, 1.0f));
-var materialRight = new Lambertian(new Vector3(1.0f, 0.0f, 0.0f));
+world.Add(new Sphere(new Vector3( 0.0f, -100.5f, -1.0f), 100, materialGround));
+world.Add(new Sphere(new Vector3( 0.0f,    0.0f, -1.0f), 0.5f, materialCenter));
+world.Add(new Sphere(new Vector3(-1.0f,    0.0f, -1.0f), 0.5f, materialLeft));
+world.Add(new Sphere(new Vector3(-1.0f,    0.0f, -1.0f), -0.4f, materialLeft));
+world.Add(new Sphere(new Vector3( 1.0f,    0.0f, -1.0f), 0.5f, materialRight));
 
-world.Add(new Sphere(new Vector3(-R, 0.0f, -1.0f), R, materialLeft));
-world.Add(new Sphere(new Vector3( R, 0.0f, -1.0f), R, materialRight));
 
 
 // Camera
-var cam = new Camera(90.0, aspectRatio);
+var cam = new Camera(
+    new Vector3(-2.0f, 2.0f, 1.0f),
+    new Vector3(0.0f, 0.0f, -1.0f),
+    new Vector3(0.0f, 1.0f, 0.0f),
+    90.0, aspectRatio);
 
 for (int j = imageHeight - 1, y = 0; j >= 0; j--, y++)
 //Parallel.For(0, imageHeight - 1, index =>
