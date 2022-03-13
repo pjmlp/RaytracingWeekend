@@ -1,6 +1,8 @@
 namespace RaytracingUtils;
 
+using System;
 using System.Numerics;
+using static RaytracingUtils.MathUtils;
 
 /// <summary>
 /// Scene camera
@@ -12,11 +14,15 @@ public class Camera
     private Vector3 horizontal;
     private Vector3 vertical;
 
-    public Camera()
+    /// <param name="vfov">vertical field-of-view in degrees</param>
+    /// <param name="aspectRatio"></param>
+    public Camera(double vfov, double aspectRatio)
     {
-        var aspectRatio = 16.0f / 9.0f;
-        var viewportHeight = 2.0f;
-        var viewportWidth = aspectRatio * viewportHeight;
+        var theta = (float)DegreesToRadians(vfov);
+        var h = MathF.Tan(theta/2.0f);
+        var viewportHeight = 2.0f * h;
+        var viewportWidth = (float)aspectRatio * viewportHeight;
+
         var focalLength = 1.0f;
 
         origin = Vector3.Zero;
