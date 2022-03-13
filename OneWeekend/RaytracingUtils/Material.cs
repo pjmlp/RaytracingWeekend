@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System;
 using System.Numerics;
 using static RaytracingUtils.MathUtils;
 
@@ -66,9 +66,20 @@ public class Dielectric : IMaterial
         float refractionRatio = rec.FrontFace ? (1.0f / ir) : ir;
 
         Vector3 unit_direction = Vector3.Normalize(rIn.Direction);
-        Vector3 refracted = Refract(unit_direction, rec.Normal, refractionRatio);
 
-        scattered = new Ray(rec.p, refracted);
+        float cos_theta = MathF.Min(Vector3.Dot(-unit_direction, rec.Normal), 1.0f);
+        float sin_theta = MathF.Sqrt(1.0f - cos_theta*cos_theta);
+
+        bool cannot_refract = refractionRatio * sin_theta > 1.0;
+        Vector3 direction;
+
+        if (cannot_refract)
+            direction = Reflect(unit_direction, rec.Normal);
+        else
+            direction = Refract(unit_direction, rec.Normal, refractionRatio);
+
+        scattered = new Ray(rec.p, direction);
+
         return true;
     }
 }
