@@ -50,14 +50,12 @@ world.Add(new Sphere(new Vector3(-1.0f,    0.0f, -1.0f), 0.5f, materialLeft));
 world.Add(new Sphere(new Vector3(-1.0f,    0.0f, -1.0f), -0.4f, materialLeft));
 world.Add(new Sphere(new Vector3( 1.0f,    0.0f, -1.0f), 0.5f, materialRight));
 
-
-
 // Camera
 var cam = new Camera(
     new Vector3(-2.0f, 2.0f, 1.0f),
     new Vector3(0.0f, 0.0f, -1.0f),
     new Vector3(0.0f, 1.0f, 0.0f),
-    90.0, aspectRatio);
+    20.0, aspectRatio);
 
 for (int j = imageHeight - 1, y = 0; j >= 0; j--, y++)
 //Parallel.For(0, imageHeight - 1, index =>
