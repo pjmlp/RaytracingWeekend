@@ -13,6 +13,9 @@ namespace RaytracingUtils
         // Returns a random real in [0,1).
         public static double RandomDouble() => Random.Shared.NextDouble();
 
+        // Returns a random single in [0,1).
+        public static float RandomFloat() => Random.Shared.NextSingle();
+
         // Returns a random real in [min,max).
         public static double RandomDouble(double min, double max) => min + (max - min) * Random.Shared.NextDouble();
 
