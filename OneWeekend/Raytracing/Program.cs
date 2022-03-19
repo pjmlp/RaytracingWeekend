@@ -50,12 +50,13 @@ world.Add(new Sphere(new Vector3(-1.0f,    0.0f, -1.0f), 0.5f, materialLeft));
 world.Add(new Sphere(new Vector3(-1.0f,    0.0f, -1.0f), -0.4f, materialLeft));
 world.Add(new Sphere(new Vector3( 1.0f,    0.0f, -1.0f), 0.5f, materialRight));
 
-// Camera
-var cam = new Camera(
-    new Vector3(-2.0f, 2.0f, 1.0f),
-    new Vector3(0.0f, 0.0f, -1.0f),
-    new Vector3(0.0f, 1.0f, 0.0f),
-    20.0, aspectRatio);
+var lookfrom = new Vector3(3,3,2);
+var lookat = new Vector3(0,0,-1);
+var vup = new Vector3(0,1,0);
+var distToFocus = (lookfrom - lookat).Length();
+float aperture = 2.0f;
+
+var cam = new Camera(lookfrom, lookat, vup, 20, aspectRatio, aperture, distToFocus);
 
 for (int j = imageHeight - 1, y = 0; j >= 0; j--, y++)
 //Parallel.For(0, imageHeight - 1, index =>

@@ -16,6 +16,8 @@ namespace RaytracingUtils
         // Returns a random real in [min,max).
         public static double RandomDouble(double min, double max) => min + (max - min) * Random.Shared.NextDouble();
 
+        public static float RandomFloat(float min, float max) => min + (max - min) * Random.Shared.NextSingle();
+
         // Returns a vector with coordinates using random real in [0,1).
         public static Vector3 RandomVector() => new Vector3((float)RandomDouble(), (float)RandomDouble(), (float)RandomDouble());
 
@@ -31,6 +33,16 @@ namespace RaytracingUtils
                 return p;
             }
         }
+
+        public static Vector3 RandomInUnitDisk()
+        {
+            while(true)
+            {
+                var p = new Vector3 (RandomFloat(-1, 1), RandomFloat(-1, 1), 0f);
+                if (p.LengthSquared() >= 1) continue;
+                return p;
+            }
+        }        
 
         public static Vector3 RandomUnitVector() => Vector3.Normalize(RandomVector());
 
