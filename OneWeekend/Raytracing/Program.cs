@@ -48,12 +48,13 @@ float aperture = 0.1f;
 
 var cam = new Camera(lookfrom, lookat, vup, 20, aspectRatio, aperture, distToFocus);
 
-//for (int j = imageHeight - 1, y = 0; j >= 0; j--, y++)
+int counter = imageHeight - 1;
 Parallel.For(0, imageHeight - 1, index =>
 {
     int y = index;
     int j = imageHeight - index - 1;
-    Console.Error.Write($"\rScanlines remaining: {j} ");
+    var remaining = Interlocked.Decrement(ref counter);
+    Console.Error.Write($"\rScanlines remaining: {remaining} ");
 
     for (int i = 0; i < imageWidth; i++)
     {
