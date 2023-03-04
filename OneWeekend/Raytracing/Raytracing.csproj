@@ -11,4 +11,8 @@
     <ProjectReference Include="..\RaytracingUtils\RaytracingUtils.csproj" />
   </ItemGroup>
 
+   <PropertyGroup>
+    <PublishAot>true</PublishAot>
+  </PropertyGroup> 
+
 </Project>
